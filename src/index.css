@@ -37,15 +37,19 @@ body {
 }
 
 .main {
-  width: 50rem;
+  max-width: 50rem;
+  text-align: center;
 }
 
 .app-header {
-  width: 66rem;
+  max-width: 66rem;
   margin-bottom: 4rem;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 4rem;
+  text-align: center;
 }
 
 .error {

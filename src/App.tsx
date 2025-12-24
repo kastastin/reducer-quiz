@@ -1,9 +1,14 @@
-import DateCounter from "./components/DateCounter";
+import Main from "./components/layout/Main";
+import Header from "./components/layout/Header";
+import StartScreen from "./components/StartScreen";
 
 const App = () => {
   return (
-    <div>
-      <DateCounter />
+    <div className="app">
+      <Header />
+      <Main>
+        <StartScreen />
+      </Main>
     </div>
   );
 };
