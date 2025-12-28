@@ -1,5 +1,5 @@
 type MainProps = {
-  children: React.ReactElement;
+  children: React.ReactNode;
 };
 
 const Main = ({ children }: MainProps) => {

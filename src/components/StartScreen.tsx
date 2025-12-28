@@ -1,8 +1,12 @@
-const StartScreen = () => {
+type StartScreenProps = {
+  totalQuestions: number;
+};
+
+const StartScreen = ({ totalQuestions }: StartScreenProps) => {
   return (
-    <div className="start">
+    <div className="start"> 
       <h2>Welcome to The React Quiz!</h2>
-      <h3>15 questions to test your React mastery</h3>
+      <h3>{totalQuestions} questions to test your React mastery</h3>
       <button className="btn btn-ui" onClick={() => console.log("Start quiz")}>
         Let's start
       </button>
