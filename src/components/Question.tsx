@@ -1,16 +1,19 @@
-import type { Question as QuestionType } from "../types/quiz";
+import type { Dispatch } from "react";
+import type { Question as QuestionType, Quiz, QuizAction } from "../types/quiz";
 
 import AnswerOptions from "./AnswerOptions";
 
 type QuestionProps = {
   question: QuestionType;
+  answerIndex: Quiz["answerIndex"];
+  dispatch: Dispatch<QuizAction>;
 };
 
-const Question = ({ question }: QuestionProps) => {
+const Question = ({ question, answerIndex, dispatch }: QuestionProps) => {
   return (
     <div>
       <h4>{question.question}</h4>
-      <AnswerOptions question={question} />
+      <AnswerOptions question={question} answerIndex={answerIndex} dispatch={dispatch} />
     </div>
   );
 };

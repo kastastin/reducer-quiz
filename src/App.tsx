@@ -13,16 +13,32 @@ const initialState: Quiz = {
   questions: [],
   status: "loading",
   currentQuestionIndex: 0,
+  answerIndex: null,
+  points: 0,
 };
 
 const reducer: Reducer<Quiz, QuizAction> = (state, action) => {
   switch (action.type) {
     case "dataReceived":
       return { ...state, status: "ready", questions: action.payload };
+
     case "dataFailed":
       return { ...state, status: "error" };
+
     case "start":
       return { ...state, status: "active" };
+
+    case "setAnswerIndex": {
+      const question = state.questions[state.currentQuestionIndex];
+      const isAnswerCorrect = action.payload === question.correctOption;
+
+      return {
+        ...state,
+        answerIndex: action.payload,
+        points: isAnswerCorrect ? state.points + question.points : state.points,
+      };
+    }
+
     default:
       throw new Error("Unknown action");
   }
@@ -47,7 +63,13 @@ const App = () => {
         {quiz.status === "error" && <FecthingError />}
         {quiz.status === "loading" && <Loader />}
         {quiz.status === "ready" && <StartScreen totalQuestions={totalQuestions} dispatch={dispatch} />}
-        {quiz.status === "active" && <Question question={quiz.questions[quiz.currentQuestionIndex]} />}
+        {quiz.status === "active" && (
+          <Question
+            question={quiz.questions[quiz.currentQuestionIndex]}
+            answerIndex={quiz.answerIndex}
+            dispatch={dispatch}
+          />
+        )}
       </Main>
     </div>
   );

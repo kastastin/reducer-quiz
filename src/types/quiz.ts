@@ -2,12 +2,15 @@ export type Quiz = {
   questions: Question[];
   status: Status;
   currentQuestionIndex: number;
+  answerIndex: number | null;
+  points: number;
 };
 
 export type QuizAction =
   | { type: "dataReceived"; payload: Quiz["questions"] }
   | { type: "dataFailed" }
-  | { type: "start" };
+  | { type: "start" }
+  | { type: "setAnswerIndex"; payload: number };
 
 export type Question = {
   question: string;
