@@ -1,4 +1,15 @@
-type Question = {
+export type Quiz = {
+  questions: Question[];
+  status: Status;
+  currentQuestionIndex: number;
+};
+
+export type QuizAction =
+  | { type: "dataReceived"; payload: Quiz["questions"] }
+  | { type: "dataFailed" }
+  | { type: "start" };
+
+export type Question = {
   question: string;
   options: string[];
   correctOption: number;
@@ -6,12 +17,3 @@ type Question = {
 };
 
 type Status = "loading" | "ready" | "active" | "finished" | "error";
-
-export type Quiz = {
-  questions: Question[];
-  status: Status;
-};
-
-export type QuizAction =
-  | { type: "dataReceived"; payload: Quiz["questions"] }
-  | { type: "dataFailed" }

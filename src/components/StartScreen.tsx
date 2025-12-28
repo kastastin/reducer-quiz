@@ -1,13 +1,17 @@
+import type { Dispatch } from "react";
+import type { QuizAction } from "../types/quiz";
+
 type StartScreenProps = {
   totalQuestions: number;
+  dispatch: Dispatch<QuizAction>;
 };
 
-const StartScreen = ({ totalQuestions }: StartScreenProps) => {
+const StartScreen = ({ totalQuestions, dispatch }: StartScreenProps) => {
   return (
-    <div className="start"> 
+    <div className="start">
       <h2>Welcome to The React Quiz!</h2>
       <h3>{totalQuestions} questions to test your React mastery</h3>
-      <button className="btn btn-ui" onClick={() => console.log("Start quiz")}>
+      <button className="btn btn-ui" onClick={() => dispatch({ type: "start" })}>
         Let's start
       </button>
     </div>

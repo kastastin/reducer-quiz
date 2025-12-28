@@ -2,17 +2,17 @@ import { useEffect, useReducer, type Reducer } from "react";
 
 import Loader from "./components/Loader";
 import Main from "./components/layout/Main";
+import Question from "./components/Question";
 import Header from "./components/layout/Header";
 import StartScreen from "./components/StartScreen";
 import FecthingError from "./components/FecthingError";
 
 import type { Quiz, QuizAction } from "./types/quiz";
 
-// const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-
 const initialState: Quiz = {
   questions: [],
   status: "loading",
+  currentQuestionIndex: 0,
 };
 
 const reducer: Reducer<Quiz, QuizAction> = (state, action) => {
@@ -21,6 +21,8 @@ const reducer: Reducer<Quiz, QuizAction> = (state, action) => {
       return { ...state, status: "ready", questions: action.payload };
     case "dataFailed":
       return { ...state, status: "error" };
+    case "start":
+      return { ...state, status: "active" };
     default:
       throw new Error("Unknown action");
   }
@@ -34,7 +36,6 @@ const App = () => {
   useEffect(() => {
     fetch("http://localhost:8001/questions")
       .then((res) => res.json())
-      // .then(() => sleep(3000))
       .then((data) => dispatch({ type: "dataReceived", payload: data }))
       .catch(() => dispatch({ type: "dataFailed" }));
   }, []);
@@ -45,7 +46,8 @@ const App = () => {
       <Main>
         {quiz.status === "error" && <FecthingError />}
         {quiz.status === "loading" && <Loader />}
-        {quiz.status === "ready" && <StartScreen totalQuestions={totalQuestions} />}
+        {quiz.status === "ready" && <StartScreen totalQuestions={totalQuestions} dispatch={dispatch} />}
+        {quiz.status === "active" && <Question question={quiz.questions[quiz.currentQuestionIndex]} />}
       </Main>
     </div>
   );
