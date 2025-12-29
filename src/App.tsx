@@ -7,6 +7,7 @@ import Question from "./components/Question";
 import Header from "./components/layout/Header";
 import NextButton from "./components/NextButton";
 import StartScreen from "./components/StartScreen";
+import FinishScreen from "./components/FinishScreen";
 import FecthingError from "./components/FecthingError";
 
 import type { Quiz, QuizAction } from "./types/quiz";
@@ -17,6 +18,7 @@ const initialState: Quiz = {
   currentQuestionIndex: 0,
   answerIndex: null,
   points: 0,
+  highscore: 0,
 };
 
 const reducer: Reducer<Quiz, QuizAction> = (state, action) => {
@@ -43,6 +45,16 @@ const reducer: Reducer<Quiz, QuizAction> = (state, action) => {
 
     case "nextQuestion":
       return { ...state, currentQuestionIndex: state.currentQuestionIndex + 1, answerIndex: null };
+
+    case "finish":
+      return {
+        ...state,
+        status: "finished",
+        highscore: state.points > state.highscore ? state.points : state.highscore,
+      };
+
+    case "restart":
+      return { ...initialState, questions: state.questions, status: "ready" };
 
     default:
       throw new Error("Unknown action");
@@ -85,8 +97,21 @@ const App = () => {
               dispatch={dispatch}
             />
 
-            <NextButton answerIndex={quiz.answerIndex} dispatch={dispatch} />
+            <NextButton
+              currentQuestionIndex={quiz.currentQuestionIndex}
+              totalQuestions={totalQuestions}
+              answerIndex={quiz.answerIndex}
+              dispatch={dispatch}
+            />
           </>
+        )}
+        {quiz.status === "finished" && (
+          <FinishScreen
+            points={quiz.points}
+            maxPossiblePoints={maxPossiblePoints}
+            highscore={quiz.highscore}
+            dispatch={dispatch}
+          />
         )}
       </Main>
     </div>

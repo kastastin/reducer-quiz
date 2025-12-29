@@ -4,6 +4,7 @@ export type Quiz = {
   currentQuestionIndex: number;
   answerIndex: number | null;
   points: number;
+  highscore: number;
 };
 
 export type QuizAction =
@@ -11,7 +12,9 @@ export type QuizAction =
   | { type: "dataFailed" }
   | { type: "start" }
   | { type: "setAnswerIndex"; payload: number }
-  | { type: "nextQuestion" };
+  | { type: "nextQuestion" }
+  | { type: "finish" }
+  | { type: "restart" };
 
 export type Question = {
   question: string;
