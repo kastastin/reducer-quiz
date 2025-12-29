@@ -1,12 +1,8 @@
-import type { Dispatch } from "react";
-import type { QuizAction } from "../types/quiz";
+import { useQuiz } from "../../features/quiz/hooks/useQuiz";
 
-type StartScreenProps = {
-  totalQuestions: number;
-  dispatch: Dispatch<QuizAction>;
-};
+const StartScreen = () => {
+  const { totalQuestions, dispatch } = useQuiz();
 
-const StartScreen = ({ totalQuestions, dispatch }: StartScreenProps) => {
   return (
     <div className="start">
       <h2>Welcome to The React Quiz!</h2>

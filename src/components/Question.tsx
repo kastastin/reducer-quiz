@@ -1,19 +1,17 @@
-import type { Dispatch } from "react";
-import type { Question as QuestionType, Quiz, QuizAction } from "../types/quiz";
-
 import AnswerOptions from "./AnswerOptions";
 
-type QuestionProps = {
-  question: QuestionType;
-  answerIndex: Quiz["answerIndex"];
-  dispatch: Dispatch<QuizAction>;
-};
+import { useQuiz } from "../features/quiz/hooks/useQuiz";
 
-const Question = ({ question, answerIndex, dispatch }: QuestionProps) => {
+const Question = () => {
+  const { state } = useQuiz();
+  const { questions, currentQuestionIndex } = state;
+
+  const question = questions[currentQuestionIndex];
+
   return (
     <div>
       <h4>{question.question}</h4>
-      <AnswerOptions question={question} answerIndex={answerIndex} dispatch={dispatch} />
+      <AnswerOptions question={question} />
     </div>
   );
 };

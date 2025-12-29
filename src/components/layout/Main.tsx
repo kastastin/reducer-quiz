@@ -1,8 +1,4 @@
-type MainProps = {
-  children: React.ReactNode;
-};
-
-const Main = ({ children }: MainProps) => {
+const Main = ({ children }: { children: React.ReactNode }) => {
   return <main className="main">{children}</main>;
 };
 

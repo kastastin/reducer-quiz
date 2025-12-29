@@ -1,14 +1,9 @@
-import type { Quiz } from "../types/quiz";
+import { useQuiz } from "../features/quiz/hooks/useQuiz";
 
-type ProgressProps = {
-  totalQuestions: number;
-  currentQuestionIndex: number;
-  answerIndex: Quiz["answerIndex"];
-  points: number;
-  maxPossiblePoints: number;
-};
+const Progress = () => {
+  const { state, totalQuestions, maxPossiblePoints } = useQuiz();
+  const { currentQuestionIndex, answerIndex, points } = state;
 
-const Progress = ({ totalQuestions, currentQuestionIndex, answerIndex, points, maxPossiblePoints }: ProgressProps) => {
   return (
     <header className="progress">
       <progress max={totalQuestions} value={currentQuestionIndex + Number(answerIndex !== null)}></progress>

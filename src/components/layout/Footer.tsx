@@ -1,8 +1,4 @@
-type FooterProps = {
-  children: React.ReactNode;
-};
-
-const Footer = ({ children }: FooterProps) => {
+const Footer = ({ children }: { children: React.ReactNode }) => {
   return <footer>{children}</footer>;
 };
 

@@ -1,14 +1,11 @@
-import { useEffect, useRef, type Dispatch } from "react";
-import type { Quiz, QuizAction } from "../types/quiz";
+import { useEffect, useRef } from "react";
 
-type NextButtonProps = {
-  currentQuestionIndex: number;
-  totalQuestions: number;
-  answerIndex: Quiz["answerIndex"];
-  dispatch: Dispatch<QuizAction>;
-};
+import { useQuiz } from "../features/quiz/hooks/useQuiz";
 
-const NextButton = ({ currentQuestionIndex, totalQuestions, answerIndex, dispatch }: NextButtonProps) => {
+const NextButton = () => {
+  const { state, totalQuestions, dispatch } = useQuiz();
+  const { currentQuestionIndex, answerIndex } = state;
+
   const btnRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {

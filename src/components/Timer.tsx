@@ -1,20 +1,23 @@
-import { useEffect, type Dispatch } from "react";
-import type { QuizAction } from "../types/quiz";
+import { useEffect } from "react";
 
-type TimerProps = {
-  secondsRemaining: number;
-  dispatch: Dispatch<QuizAction>;
-};
+import { useQuiz } from "../features/quiz/hooks/useQuiz";
 
-const Timer = ({ secondsRemaining, dispatch }: TimerProps) => {
-  const mins = Math.floor(secondsRemaining / 60);
-  const seconds = secondsRemaining % 60;
+const Timer = () => {
+  const { state, dispatch } = useQuiz();
+  const { secondsRemaining } = state;
 
   useEffect(() => {
     const id = setInterval(() => dispatch({ type: "tick" }), 1000);
 
     return () => clearInterval(id);
   }, [dispatch]);
+
+  if (secondsRemaining === null) {
+    return null;
+  }
+
+  const mins = Math.floor(secondsRemaining / 60);
+  const seconds = secondsRemaining % 60;
 
   return (
     <div className="timer">
