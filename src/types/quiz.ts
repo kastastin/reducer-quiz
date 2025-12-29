@@ -10,7 +10,8 @@ export type QuizAction =
   | { type: "dataReceived"; payload: Quiz["questions"] }
   | { type: "dataFailed" }
   | { type: "start" }
-  | { type: "setAnswerIndex"; payload: number };
+  | { type: "setAnswerIndex"; payload: number }
+  | { type: "nextQuestion" };
 
 export type Question = {
   question: string;

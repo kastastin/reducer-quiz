@@ -2,8 +2,10 @@ import { useEffect, useReducer, type Reducer } from "react";
 
 import Loader from "./components/Loader";
 import Main from "./components/layout/Main";
+import Progress from "./components/Progress";
 import Question from "./components/Question";
 import Header from "./components/layout/Header";
+import NextButton from "./components/NextButton";
 import StartScreen from "./components/StartScreen";
 import FecthingError from "./components/FecthingError";
 
@@ -39,6 +41,9 @@ const reducer: Reducer<Quiz, QuizAction> = (state, action) => {
       };
     }
 
+    case "nextQuestion":
+      return { ...state, currentQuestionIndex: state.currentQuestionIndex + 1, answerIndex: null };
+
     default:
       throw new Error("Unknown action");
   }
@@ -48,6 +53,7 @@ const App = () => {
   const [quiz, dispatch] = useReducer(reducer, initialState);
 
   const totalQuestions = quiz.questions.length;
+  const maxPossiblePoints = quiz.questions.reduce((acc, curr) => acc + curr.points, 0);
 
   useEffect(() => {
     fetch("http://localhost:8001/questions")
@@ -64,11 +70,23 @@ const App = () => {
         {quiz.status === "loading" && <Loader />}
         {quiz.status === "ready" && <StartScreen totalQuestions={totalQuestions} dispatch={dispatch} />}
         {quiz.status === "active" && (
-          <Question
-            question={quiz.questions[quiz.currentQuestionIndex]}
-            answerIndex={quiz.answerIndex}
-            dispatch={dispatch}
-          />
+          <>
+            <Progress
+              totalQuestions={totalQuestions}
+              currentQuestionIndex={quiz.currentQuestionIndex}
+              answerIndex={quiz.answerIndex}
+              points={quiz.points}
+              maxPossiblePoints={maxPossiblePoints}
+            />
+
+            <Question
+              question={quiz.questions[quiz.currentQuestionIndex]}
+              answerIndex={quiz.answerIndex}
+              dispatch={dispatch}
+            />
+
+            <NextButton answerIndex={quiz.answerIndex} dispatch={dispatch} />
+          </>
         )}
       </Main>
     </div>
